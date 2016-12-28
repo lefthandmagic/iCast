@@ -19,6 +19,8 @@ class BrowserViewController: UIViewController, UISearchBarDelegate, UIWebViewDel
 
     let browserConnectionDelegate = BrowserConnectionDelegate()
 
+    let browserUtil = BrowserUtil()
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -33,11 +35,10 @@ class BrowserViewController: UIViewController, UISearchBarDelegate, UIWebViewDel
         webView.allowsInlineMediaPlayback = true
         webView.mediaPlaybackAllowsAirPlay = true
 
-        let url = URL(string:"https://www.youtube.com")
-        let req = URLRequest(url:url!)
-        let urlConnection:NSURLConnection = NSURLConnection(request: req, delegate: browserConnectionDelegate)!
+        let url = BrowserUtil.createURL(string:"https://www.youtube.com")
+        let req = URLRequest(url:url)
         self.webView.loadRequest(req)
-        self.searchBar.text = url?.absoluteURL.absoluteString
+        self.searchBar.text = url.absoluteURL.absoluteString
         self.searchBar.delegate = self
     }
 
@@ -53,12 +54,10 @@ class BrowserViewController: UIViewController, UISearchBarDelegate, UIWebViewDel
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         let text = searchBar.text
-        let url = URL(string: text!)
-        let req = URLRequest(url:url!)
-        _  = NSURLConnection(request: req, delegate: browserConnectionDelegate)!
+        let url = BrowserUtil.createURL(string: text!)
+        let req = URLRequest(url:url)
         self.webView.loadRequest(req)
     }
-
 
 }
 
