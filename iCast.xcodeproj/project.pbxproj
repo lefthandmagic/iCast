@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		6C4E08C690B67DFE21CCBC58 /* libPods-iCast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EAC61B9C40FFFA3721A522 /* libPods-iCast.a */; };
 		A50380BB1E1361D000CAE59B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50380BA1E1361D000CAE59B /* AppDelegate.swift */; };
-		A50380BD1E1361D000CAE59B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50380BC1E1361D000CAE59B /* ViewController.swift */; };
+		A50380BD1E1361D000CAE59B /* BrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50380BC1E1361D000CAE59B /* BrowserViewController.swift */; };
 		A50380C01E1361D000CAE59B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50380BE1E1361D000CAE59B /* Main.storyboard */; };
 		A50380C21E1361D000CAE59B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A50380C11E1361D000CAE59B /* Assets.xcassets */; };
 		A50380C51E1361D000CAE59B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50380C31E1361D000CAE59B /* LaunchScreen.storyboard */; };
 		A50380CD1E13665F00CAE59B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A50380CC1E13665F00CAE59B /* Podfile */; };
+		A5D08EC71E142FA200FBB7EE /* BrowserConnectionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D08EC61E142FA200FBB7EE /* BrowserConnectionDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,12 +22,13 @@
 		66325A3439EAC0C57ED6A499 /* Pods-iCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iCast/Pods-iCast.debug.xcconfig"; sourceTree = "<group>"; };
 		A50380B71E1361D000CAE59B /* iCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A50380BA1E1361D000CAE59B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A50380BC1E1361D000CAE59B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A50380BC1E1361D000CAE59B /* BrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserViewController.swift; sourceTree = "<group>"; };
 		A50380BF1E1361D000CAE59B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A50380C11E1361D000CAE59B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A50380C41E1361D000CAE59B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A50380C61E1361D000CAE59B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A50380CC1E13665F00CAE59B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		A5D08EC61E142FA200FBB7EE /* BrowserConnectionDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserConnectionDelegate.swift; sourceTree = "<group>"; };
 		B2EAC61B9C40FFFA3721A522 /* libPods-iCast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iCast.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -81,12 +83,13 @@
 			isa = PBXGroup;
 			children = (
 				A50380BA1E1361D000CAE59B /* AppDelegate.swift */,
-				A50380BC1E1361D000CAE59B /* ViewController.swift */,
+				A50380BC1E1361D000CAE59B /* BrowserViewController.swift */,
 				A50380BE1E1361D000CAE59B /* Main.storyboard */,
 				A50380C11E1361D000CAE59B /* Assets.xcassets */,
 				A50380C31E1361D000CAE59B /* LaunchScreen.storyboard */,
 				A50380C61E1361D000CAE59B /* Info.plist */,
 				A50380CC1E13665F00CAE59B /* Podfile */,
+				A5D08EC61E142FA200FBB7EE /* BrowserConnectionDelegate.swift */,
 			);
 			path = iCast;
 			sourceTree = "<group>";
@@ -216,7 +219,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A50380BD1E1361D000CAE59B /* ViewController.swift in Sources */,
+				A5D08EC71E142FA200FBB7EE /* BrowserConnectionDelegate.swift in Sources */,
+				A50380BD1E1361D000CAE59B /* BrowserViewController.swift in Sources */,
 				A50380BB1E1361D000CAE59B /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +265,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -311,6 +316,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

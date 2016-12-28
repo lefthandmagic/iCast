@@ -6,13 +6,14 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Browser View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="iCast" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="BrowserViewController" customModule="iCast" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -21,25 +22,88 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gRT-Ls-vFp">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gRT-Ls-vFp">
+                                <rect key="frame" x="0.0" y="72" width="375" height="537"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <dataDetectorType key="dataDetectorTypes"/>
                             </webView>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search or type URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gAt-1q-2hw">
-                                <rect key="frame" x="16" y="20" width="343" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search or type URL" showsSearchResultsButton="YES" translatesAutoresizingMaskIntoConstraints="NO" id="btF-rm-CqB">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <textInputTraits key="textInputTraits"/>
-                            </textField>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                            </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcT-9o-vyl">
+                                <rect key="frame" x="291" y="617" width="30" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="&lt;-"/>
+                                <connections>
+                                    <action selector="goBack" destination="gRT-Ls-vFp" eventType="touchUpInside" id="h9E-tK-yTl"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vso-Fe-hTV">
+                                <rect key="frame" x="25" y="617" width="32" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Stop"/>
+                                <connections>
+                                    <action selector="stopLoading" destination="gRT-Ls-vFp" eventType="touchUpInside" id="yiM-pc-cFv"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6RC-dl-cxv">
+                                <rect key="frame" x="329" y="617" width="30" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="-&gt;"/>
+                                <connections>
+                                    <action selector="goForward" destination="gRT-Ls-vFp" eventType="touchUpInside" id="gMV-dP-SdW"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbP-Mo-rsQ">
+                                <rect key="frame" x="89" y="617" width="77" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="77" id="vux-gk-2lj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Reload"/>
+                                <connections>
+                                    <action selector="reload" destination="gRT-Ls-vFp" eventType="touchUpInside" id="ZRa-tM-3R0"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="erq-0p-Myb">
+                                <rect key="frame" x="250" y="622" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="QcT-9o-vyl" firstAttribute="baseline" secondItem="6RC-dl-cxv" secondAttribute="baseline" id="39o-w1-yxT"/>
+                            <constraint firstItem="gRT-Ls-vFp" firstAttribute="top" secondItem="btF-rm-CqB" secondAttribute="bottom" id="GwS-gc-gde"/>
+                            <constraint firstItem="6RC-dl-cxv" firstAttribute="leading" secondItem="QcT-9o-vyl" secondAttribute="trailing" constant="8" symbolic="YES" id="J2n-NM-28I"/>
+                            <constraint firstItem="vso-Fe-hTV" firstAttribute="top" secondItem="gRT-Ls-vFp" secondAttribute="bottom" constant="8" symbolic="YES" id="Jlz-ej-bk4"/>
+                            <constraint firstItem="vbP-Mo-rsQ" firstAttribute="leading" secondItem="vso-Fe-hTV" secondAttribute="trailing" constant="32" id="PSx-Dt-hb1"/>
+                            <constraint firstItem="vso-Fe-hTV" firstAttribute="baseline" secondItem="vbP-Mo-rsQ" secondAttribute="baseline" id="ccZ-G6-4Mq"/>
+                            <constraint firstItem="btF-rm-CqB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="fsC-fR-Hu0"/>
+                            <constraint firstItem="btF-rm-CqB" firstAttribute="leading" secondItem="gRT-Ls-vFp" secondAttribute="leading" id="g7t-dH-7ef"/>
+                            <constraint firstItem="vbP-Mo-rsQ" firstAttribute="baseline" secondItem="QcT-9o-vyl" secondAttribute="baseline" id="gSU-4f-lDt"/>
+                            <constraint firstItem="btF-rm-CqB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="jAR-iA-tcv"/>
+                            <constraint firstItem="6RC-dl-cxv" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="oM9-4a-7wZ"/>
+                            <constraint firstItem="vso-Fe-hTV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="9" id="ulp-BE-3sw"/>
+                            <constraint firstItem="btF-rm-CqB" firstAttribute="trailing" secondItem="gRT-Ls-vFp" secondAttribute="trailing" id="xDY-IM-Feu"/>
+                            <constraint firstAttribute="bottom" secondItem="vso-Fe-hTV" secondAttribute="bottom" constant="20" symbolic="YES" id="xNi-Ce-QRA"/>
+                            <constraint firstAttribute="trailing" secondItem="btF-rm-CqB" secondAttribute="trailing" id="xQd-Rw-LZT"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="activity" destination="erq-0p-Myb" id="XVW-50-Xwj"/>
+                        <outlet property="searchBar" destination="btF-rm-CqB" id="z6w-Hr-cSM"/>
+                        <outlet property="webView" destination="gRT-Ls-vFp" id="quG-fX-1gg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
+            <point key="canvasLocation" x="136.23188405797103" y="138.58695652173915"/>
         </scene>
     </scenes>
 </document>
