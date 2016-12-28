@@ -7,14 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6C4E08C690B67DFE21CCBC58 /* libPods-iCast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EAC61B9C40FFFA3721A522 /* libPods-iCast.a */; };
 		A50380BB1E1361D000CAE59B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50380BA1E1361D000CAE59B /* AppDelegate.swift */; };
 		A50380BD1E1361D000CAE59B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50380BC1E1361D000CAE59B /* ViewController.swift */; };
 		A50380C01E1361D000CAE59B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50380BE1E1361D000CAE59B /* Main.storyboard */; };
 		A50380C21E1361D000CAE59B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A50380C11E1361D000CAE59B /* Assets.xcassets */; };
 		A50380C51E1361D000CAE59B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A50380C31E1361D000CAE59B /* LaunchScreen.storyboard */; };
+		A50380CD1E13665F00CAE59B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = A50380CC1E13665F00CAE59B /* Podfile */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		29EA10D3CFE49F84E1B1AB76 /* Pods-iCast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCast.release.xcconfig"; path = "Pods/Target Support Files/Pods-iCast/Pods-iCast.release.xcconfig"; sourceTree = "<group>"; };
+		66325A3439EAC0C57ED6A499 /* Pods-iCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iCast/Pods-iCast.debug.xcconfig"; sourceTree = "<group>"; };
 		A50380B71E1361D000CAE59B /* iCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A50380BA1E1361D000CAE59B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A50380BC1E1361D000CAE59B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +26,8 @@
 		A50380C11E1361D000CAE59B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A50380C41E1361D000CAE59B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A50380C61E1361D000CAE59B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A50380CC1E13665F00CAE59B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		B2EAC61B9C40FFFA3721A522 /* libPods-iCast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iCast.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +35,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C4E08C690B67DFE21CCBC58 /* libPods-iCast.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		53B301476AD4C2C48B107BA7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				66325A3439EAC0C57ED6A499 /* Pods-iCast.debug.xcconfig */,
+				29EA10D3CFE49F84E1B1AB76 /* Pods-iCast.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		589E1B52BA28CFC4900F9B94 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B2EAC61B9C40FFFA3721A522 /* libPods-iCast.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A50380AE1E1361D000CAE59B = {
 			isa = PBXGroup;
 			children = (
 				A50380B91E1361D000CAE59B /* iCast */,
 				A50380B81E1361D000CAE59B /* Products */,
+				53B301476AD4C2C48B107BA7 /* Pods */,
+				589E1B52BA28CFC4900F9B94 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +86,7 @@
 				A50380C11E1361D000CAE59B /* Assets.xcassets */,
 				A50380C31E1361D000CAE59B /* LaunchScreen.storyboard */,
 				A50380C61E1361D000CAE59B /* Info.plist */,
+				A50380CC1E13665F00CAE59B /* Podfile */,
 			);
 			path = iCast;
 			sourceTree = "<group>";
@@ -71,9 +98,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A50380C91E1361D000CAE59B /* Build configuration list for PBXNativeTarget "iCast" */;
 			buildPhases = (
+				6D429CA7FCDD64B602B14427 /* [CP] Check Pods Manifest.lock */,
 				A50380B31E1361D000CAE59B /* Sources */,
 				A50380B41E1361D000CAE59B /* Frameworks */,
 				A50380B51E1361D000CAE59B /* Resources */,
+				388928455F0F0BE82CC5B0C5 /* [CP] Embed Pods Frameworks */,
+				0F8EAA91C9FD4E1D4808615B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -96,6 +126,7 @@
 				TargetAttributes = {
 					A50380B61E1361D000CAE59B = {
 						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = V5SWQD74B4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -125,11 +156,60 @@
 			files = (
 				A50380C51E1361D000CAE59B /* LaunchScreen.storyboard in Resources */,
 				A50380C21E1361D000CAE59B /* Assets.xcassets in Resources */,
+				A50380CD1E13665F00CAE59B /* Podfile in Resources */,
 				A50380C01E1361D000CAE59B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0F8EAA91C9FD4E1D4808615B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iCast/Pods-iCast-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		388928455F0F0BE82CC5B0C5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iCast/Pods-iCast-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6D429CA7FCDD64B602B14427 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A50380B31E1361D000CAE59B /* Sources */ = {
@@ -258,8 +338,10 @@
 		};
 		A50380CA1E1361D000CAE59B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66325A3439EAC0C57ED6A499 /* Pods-iCast.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = V5SWQD74B4;
 				INFOPLIST_FILE = iCast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.praveen.iCast;
@@ -270,8 +352,10 @@
 		};
 		A50380CB1E1361D000CAE59B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29EA10D3CFE49F84E1B1AB76 /* Pods-iCast.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = V5SWQD74B4;
 				INFOPLIST_FILE = iCast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.praveen.iCast;
@@ -299,6 +383,7 @@
 				A50380CB1E1361D000CAE59B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
