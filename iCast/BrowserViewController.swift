@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BrowserViewController: UIViewController, UISearchBarDelegate, UIWebViewDelegate {
+class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDelegate {
 
 
     @IBOutlet var searchBar: UISearchBar!
@@ -16,8 +16,6 @@ class BrowserViewController: UIViewController, UISearchBarDelegate, UIWebViewDel
     @IBOutlet var webView: UIWebView!
 
     @IBOutlet var activity: UIActivityIndicatorView!
-
-    let browserConnectionDelegate = BrowserConnectionDelegate()
 
     let browserUtil = BrowserUtil()
 
@@ -52,11 +50,13 @@ class BrowserViewController: UIViewController, UISearchBarDelegate, UIWebViewDel
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("Hello")
         searchBar.resignFirstResponder()
         let text = searchBar.text
         let url = BrowserUtil.createURL(string: text!)
         let req = URLRequest(url:url)
-        self.webView.loadRequest(req)
+        webView.loadRequest(req)
+        searchBar.text = url.absoluteURL.absoluteString
     }
 
 }
