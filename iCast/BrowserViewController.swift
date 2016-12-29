@@ -27,17 +27,26 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setWebViewProperties()
+        setSearchBarProperties()
+
+        let url = BrowserUtil.createURL(string:"https://www.youtube.com")
+        let req = URLRequest(url:url)
+        webView.loadRequest(req)
+        searchBar.text = url.absoluteURL.absoluteString
+    }
+
+    private func setSearchBarProperties() {
+        searchBar.delegate = self
+        searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+    }
+
+    private func setWebViewProperties() {
         webView.delegate = self;
         webView.keyboardDisplayRequiresUserAction = true
         webView.frame = self.view.frame;
         webView.allowsInlineMediaPlayback = true
         webView.mediaPlaybackAllowsAirPlay = true
-
-        let url = BrowserUtil.createURL(string:"https://www.youtube.com")
-        let req = URLRequest(url:url)
-        self.webView.loadRequest(req)
-        self.searchBar.text = url.absoluteURL.absoluteString
-        self.searchBar.delegate = self
     }
 
 
@@ -50,7 +59,6 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        print("Hello")
         searchBar.resignFirstResponder()
         let text = searchBar.text
         let url = BrowserUtil.createURL(string: text!)
