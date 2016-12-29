@@ -28,6 +28,7 @@
 		A50380C41E1361D000CAE59B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A50380C61E1361D000CAE59B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A50380CC1E13665F00CAE59B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		A5CFB59D1E1584060073A1F5 /* iCast-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iCast-Bridging-Header.h"; sourceTree = "<group>"; };
 		A5D08EC81E14725600FBB7EE /* BrowserUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
 		B2EAC61B9C40FFFA3721A522 /* libPods-iCast.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iCast.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,6 +91,7 @@
 				A50380C31E1361D000CAE59B /* LaunchScreen.storyboard */,
 				A50380C61E1361D000CAE59B /* Info.plist */,
 				A50380CC1E13665F00CAE59B /* Podfile */,
+				A5CFB59D1E1584060073A1F5 /* iCast-Bridging-Header.h */,
 			);
 			path = iCast;
 			sourceTree = "<group>";
@@ -130,6 +132,7 @@
 					A50380B61E1361D000CAE59B = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = V5SWQD74B4;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -347,11 +350,14 @@
 			baseConfigurationReference = 66325A3439EAC0C57ED6A499 /* Pods-iCast.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = V5SWQD74B4;
 				INFOPLIST_FILE = iCast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.praveen.iCast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iCast/iCast-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -361,11 +367,13 @@
 			baseConfigurationReference = 29EA10D3CFE49F84E1B1AB76 /* Pods-iCast.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = V5SWQD74B4;
 				INFOPLIST_FILE = iCast/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.praveen.iCast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iCast/iCast-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
