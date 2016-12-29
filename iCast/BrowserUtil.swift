@@ -7,18 +7,32 @@
 //
 
 import Foundation
+import UIKit
 
 class BrowserUtil {
 
-    static func createURL(string: String) -> URL {
+    static func createURL(string: String) -> URL? {
         var urlString: String
-
         if string.hasPrefix("http") {
             urlString = string
         } else {
             urlString = "http://" + string
         }
         print(urlString)
-        return URL(string: urlString)!
+
+        if verifyUrl(urlString: urlString) {
+            return URL(string: urlString)
+        } else {
+            return nil
+        }
     }
+
+    static private func verifyUrl (urlString: String?) -> Bool {
+        guard let urlString = urlString else {return false}
+        guard let url = URL(string: urlString) else {return false}
+        if !UIApplication.shared.canOpenURL(url) {return false}
+
+        let regEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[regEx])
+        return predicate.evaluate(with: urlString)    }
 }

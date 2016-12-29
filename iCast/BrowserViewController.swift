@@ -26,16 +26,16 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let urlString = "google.com"
         setWebViewProperties()
         setSearchBarProperties()
-
-        let url = BrowserUtil.createURL(string:"https://www.youtube.com")
-        let req = URLRequest(url:url)
-        webView.loadRequest(req)
-        searchBar.text = url.absoluteURL.absoluteString
+        let url = BrowserUtil.createURL(string: urlString)
+        updateWebView(url: url, urlString: urlString)
     }
 
+    /**
+     * Private functions
+     */
     private func setSearchBarProperties() {
         searchBar.delegate = self
         searchBar.autocapitalizationType = UITextAutocapitalizationType.none
@@ -49,7 +49,25 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
         webView.mediaPlaybackAllowsAirPlay = true
     }
 
+    private func updateWebView(url : URL?, urlString: String?) {
+        if let url = url {
+            print("Loading \(url.absoluteString)")
+            let req = URLRequest(url:url)
+            webView.loadRequest(req)
+            searchBar.text = url.absoluteURL.absoluteString
+        } else {
+            if var query = urlString {
+                query = query.replacingOccurrences(of: " ", with: "+")
+                let url = URL(string: "http://www.google.com/search?q=\(query)")
+                let request = URLRequest(url: url!)
+                self.webView.loadRequest(request)
+            }
+        }
+    }
 
+    /**
+     * WebView delegate methods
+     */
     func webViewDidStartLoad(_ webView : UIWebView) {
         activity.startAnimating()
     }
@@ -58,13 +76,20 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
         activity.stopAnimating()
     }
 
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        let errorString = "The page you wish to view is Invalid"
+        webView.loadHTMLString(errorString, baseURL: nil)
+    }
+
+
+    /**
+     * SearchBar delegate methods
+     */
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         let text = searchBar.text
         let url = BrowserUtil.createURL(string: text!)
-        let req = URLRequest(url:url)
-        webView.loadRequest(req)
-        searchBar.text = url.absoluteURL.absoluteString
+        updateWebView(url: url, urlString: text)
     }
 
 }
