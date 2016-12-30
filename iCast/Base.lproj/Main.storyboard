@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -96,15 +97,23 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vm9-Hb-dIL">
-                        <barButtonItem key="rightBarButtonItem" tag="4" image="ic_cast_black_24dp.png" id="HBm-M3-iRt">
-                            <connections>
-                                <action selector="castMe:" destination="BYZ-38-t0r" id="CB8-Xx-vsW"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem tag="4" image="ic_cast_black_24dp.png" id="HBm-M3-iRt">
+                                <connections>
+                                    <action selector="castMe:" destination="BYZ-38-t0r" id="CB8-Xx-vsW"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Play" id="KCC-Fe-JYm">
+                                <connections>
+                                    <action selector="play:" destination="BYZ-38-t0r" id="Shu-x2-nvG"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="activity" destination="erq-0p-Myb" id="XVW-50-Xwj"/>
                         <outlet property="googleCastButton" destination="HBm-M3-iRt" id="owe-iz-k53"/>
+                        <outlet property="play" destination="KCC-Fe-JYm" id="q7Z-kO-XGy"/>
                         <outlet property="searchBar" destination="btF-rm-CqB" id="z6w-Hr-cSM"/>
                         <outlet property="webView" destination="gRT-Ls-vFp" id="quG-fX-1gg"/>
                     </connections>
@@ -118,7 +127,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9Ze-OX-fBf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3l0-7D-BRZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3l0-7D-BRZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDelegate, GCKDeviceScannerListener, GCKDeviceManagerDelegate, GCKMediaControlChannelDelegate {
+class BrowserViewController: UIViewController {
 
 
     @IBOutlet var searchBar: UISearchBar!
@@ -19,19 +19,27 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
 
     @IBOutlet var googleCastButton: UIBarButtonItem!
 
+    @IBOutlet var play: UIBarButtonItem!
+
     let browserUtil = BrowserUtil()
 
     //fileprivate let kReceiverAppID = "AA779DBB"
     fileprivate let kReceiverAppID = kGCKMediaDefaultReceiverApplicationID
     fileprivate let kCancelTitle = "Cancel"
     fileprivate let kDisconnectTitle = "Disconnect"
+    private lazy var btnImage:UIImage = {
+        return UIImage(named: "icon-cast-identified.png")!
+    }()
+    private lazy var btnImageselected:UIImage = {
+        return UIImage(named: "icon-cast-connected.png")!
+    }()
 
     fileprivate var deviceScanner:GCKDeviceScanner?
     fileprivate var deviceManager:GCKDeviceManager?
-    fileprivate var mediaInformation:GCKMediaInformation?
     fileprivate var selectedDevice:GCKDevice?
-
-
+    fileprivate var mediaInformation: GCKMediaInformation?
+    fileprivate var mediaControlChannel: GCKMediaControlChannel?
+    fileprivate var applicationMetadata: GCKApplicationMetadata?
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -63,122 +71,52 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
 
     }
 
-    /**
-     * Private functions
-     */
-    private func setSearchBarProperties() {
-        searchBar.delegate = self
-        searchBar.autocapitalizationType = UITextAutocapitalizationType.none
-    }
 
-    private func setWebViewProperties() {
-        webView.delegate = self;
-        webView.keyboardDisplayRequiresUserAction = true
-        webView.frame = self.view.frame;
-        webView.allowsInlineMediaPlayback = true
-        webView.mediaPlaybackAllowsAirPlay = true
-    }
+    @IBAction func play(_ sender: UIBarButtonItem) {
+        print("Cast Video")
 
-    private func updateWebView(url : URL?, urlString: String?) {
-        if let url = url {
-            print("Loading \(url.absoluteString)")
-            let req = URLRequest(url:url, timeoutInterval: 10)
-            searchBar.text = url.absoluteURL.absoluteString
-            webView.loadRequest(req)
-        } else {
-            if var query = urlString {
-                query = query.replacingOccurrences(of: " ", with: "+")
-                let url = URL(string: "http://www.google.com/search?q=\(query)")
-                let request = URLRequest(url: url!, timeoutInterval: 10)
-                self.webView.loadRequest(request)
-            }
+        // Show alert if not connected.
+        if (deviceManager?.connectionState != GCKConnectionState.connected) {
+                let alert = UIAlertController(title: "Not Connected",
+                                              message: "Please connect to Cast device",
+                                              preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                alert.present(alert, animated: true, completion: nil)
+                return
         }
-    }
 
-    /**
-     * WebView delegate methods
-     */
-    func webViewDidStartLoad(_ webView : UIWebView) {
-        activity.startAnimating()
-    }
+        // [START media-metadata]
+        // Define Media Metadata.
+        let metadata = GCKMediaMetadata()
+        metadata?.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
+        metadata?.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger " +
+            "than himself. When one sunny day three rodents rudely harass him, something " +
+            "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
+            "tradition he prepares the nasty rodents a comical revenge.",
+                           forKey:kGCKMetadataKeySubtitle)
 
-    func webViewDidFinishLoad(_ webView : UIWebView) {
-        activity.stopAnimating()
-    }
+        let url = URL(string:"https://commondatastorage.googleapis.com/gtv-videos-bucket/" +
+            "sample/images/BigBuckBunny.jpg")
+        metadata?.addImage(GCKImage(url: url, width: 480, height: 360))
+        // [END media-metadata]
+        // [START load-media]
+        // Define Media Information.
+        let mediaInformation = GCKMediaInformation(
+            contentID:
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            streamType: GCKMediaStreamType.buffered,
+            contentType: "video/mp4",
+            metadata: metadata,
+            streamDuration: 0,
+            mediaTracks: [],
+            textTrackStyle: nil,
+            customData: nil
+        )
+        
+        // Cast the media
+        mediaControlChannel!.loadMedia(mediaInformation, autoplay: true)
+        // [END load-media]
 
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        let errorString = "The page you wish to view is Invalid"
-        webView.loadHTMLString(errorString, baseURL: nil)
-    }
-
-
-    /**
-     * SearchBar delegate methods
-     */
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-        let text = searchBar.text
-        let url = BrowserUtil.createURL(string: text!)
-        updateWebView(url: url, urlString: text)
-    }
-
-
-    func updateCastButtonStates() {
-        if (deviceScanner!.devices.count > 0) {
-            // Show the Cast button.
-            print("Device found!!")
-            navigationItem.rightBarButtonItems = [googleCastButton!]
-            if (deviceManager != nil && deviceManager?.connectionState == GCKConnectionState.connected) {
-                // Show the Cast button in the enabled state.
-                googleCastButton!.tintColor = UIColor.blue
-            } else {
-                // Show the Cast button in the disabled state.
-                googleCastButton!.tintColor = UIColor.gray
-                print("Setup google cast Gray WTH!!")
-            }
-        } else{
-            // Don't show Cast button.
-            navigationItem.rightBarButtonItems = []
-        }
-    }
-
-    // [START device-scanner-listener]
-    // MARK: GCKDeviceScannerListener
-
-    func deviceDidComeOnline(_ device: GCKDevice!) {
-        print("Device found: \(device.friendlyName)");
-        updateCastButtonStates()
-    }
-
-    func deviceDidGoOffline(_ device: GCKDevice!) {
-        print("Device went away: \(device.friendlyName)");
-        updateCastButtonStates()
-    }
-    // [END device-scanner-listener]
-
-
-    func connectToDevice() {
-        if (selectedDevice == nil) {
-            return
-        }
-        // [START device-selection]
-        let identifier = Bundle.main.bundleIdentifier
-        deviceManager = GCKDeviceManager(device: selectedDevice, clientPackageName: identifier)
-        deviceManager!.delegate = self
-        deviceManager!.connect()
-        // [END device-selection]
-    }
-
-    func deviceDisconnected() {
-        selectedDevice = nil
-        deviceManager = nil
-    }
-
-    func showError(_ error: NSError) {
-        let alert = UIAlertController(title: "Error", message: error.description,
-                                      preferredStyle: UIAlertControllerStyle.alert);
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
     }
 
     @IBAction func castMe(_ sender: Any) {
@@ -215,6 +153,7 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
             self.present(actionSheet, animated: true, completion: nil)
 
         } else {
+            updateStatsFromDevice()
             let friendlyName = "Casting to \(selectedDevice!.friendlyName)";
 
             let actionSheet = UIAlertController(title: friendlyName, message: nil, preferredStyle: .actionSheet)
@@ -227,7 +166,12 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
             }
 
             let disconnectAction = UIAlertAction(title: kDisconnectTitle, style: .default) { action -> Void in
-                //Just dismiss the action sheet
+                print("Disconnecting Device device: \(self.selectedDevice!.friendlyName)")
+                // Disconnect button.
+                self.deviceManager?.leaveApplication()
+                self.deviceManager?.disconnect()
+                self.deviceDisconnected();
+                self.updateCastButtonStates();
             }
             actionSheet.addAction(disconnectAction)
 
@@ -242,4 +186,189 @@ class BrowserViewController: UIViewController, UIWebViewDelegate, UISearchBarDel
 
     }
 
+}
+
+/**
+ * Private functions
+ */
+extension BrowserViewController {
+
+
+    fileprivate func setSearchBarProperties() {
+        searchBar.delegate = self
+        searchBar.autocapitalizationType = UITextAutocapitalizationType.none
+    }
+
+    fileprivate func setWebViewProperties() {
+        webView.delegate = self;
+        webView.keyboardDisplayRequiresUserAction = true
+        webView.frame = self.view.frame;
+        webView.allowsInlineMediaPlayback = true
+        webView.mediaPlaybackAllowsAirPlay = true
+    }
+
+    fileprivate func updateWebView(url : URL?, urlString: String?) {
+        if let url = url {
+            print("Loading \(url.absoluteString)")
+            let req = URLRequest(url:url, timeoutInterval: 10)
+            searchBar.text = url.absoluteURL.absoluteString
+            webView.loadRequest(req)
+        } else {
+            if var query = urlString {
+                query = query.replacingOccurrences(of: " ", with: "+")
+                let url = URL(string: "http://www.google.com/search?q=\(query)")
+                let request = URLRequest(url: url!, timeoutInterval: 10)
+                self.webView.loadRequest(request)
+            }
+        }
+    }
+
+    fileprivate func updateCastButtonStates() {
+        if (deviceScanner!.devices.count > 0) {
+            // Show the Cast button.
+            print("Device found!!")
+            navigationItem.rightBarButtonItems = [googleCastButton!]
+            if (deviceManager != nil && deviceManager?.connectionState == GCKConnectionState.connected) {
+                navigationItem.rightBarButtonItems?.append(play)
+                googleCastButton!.tintColor = UIColor.blue
+
+            } else {
+                // Show the Cast button in the disabled state.
+                googleCastButton!.tintColor = UIColor.gray
+                print("Setup google cast Gray WTH!!")
+            }
+        } else{
+            // Don't show Cast button.
+            navigationItem.rightBarButtonItems = []
+        }
+    }
+
+
+    fileprivate func connectToDevice() {
+        if (selectedDevice == nil) {
+            return
+        }
+        // [START device-selection]
+        let identifier = Bundle.main.bundleIdentifier
+        deviceManager = GCKDeviceManager(device: selectedDevice, clientPackageName: identifier)
+        deviceManager!.delegate = self
+        deviceManager!.connect()
+        // [END device-selection]
+    }
+
+    fileprivate func deviceDisconnected() {
+        selectedDevice = nil
+        deviceManager = nil
+    }
+
+    fileprivate func updateStatsFromDevice() {
+        if deviceManager?.connectionState == GCKConnectionState.connected
+            && mediaControlChannel?.mediaStatus != nil {
+            mediaInformation = mediaControlChannel?.mediaStatus.mediaInformation
+        }
+    }
+
+
+}
+
+extension BrowserViewController : GCKDeviceManagerDelegate, GCKMediaControlChannelDelegate {
+
+    func deviceManagerDidConnect(_ deviceManager: GCKDeviceManager!) {
+        print("Connected.");
+        updateCastButtonStates();
+        deviceManager.launchApplication(kReceiverAppID);
+    }
+    // [END launch-application]
+
+    func deviceManager(_ deviceManager: GCKDeviceManager!,
+                       didConnectToCastApplication
+        applicationMetadata: GCKApplicationMetadata!,
+                       sessionID: String!,
+                       launchedApplication: Bool) {
+        print("Application has launched.");
+        self.mediaControlChannel = GCKMediaControlChannel()
+        mediaControlChannel!.delegate = self
+        deviceManager.add(mediaControlChannel)
+        mediaControlChannel!.requestStatus()
+    }
+
+    func deviceManager(_ deviceManager: GCKDeviceManager!,
+                       didFailToConnectToApplicationWithError error: Error!) {
+        print("Received notification that device failed to connect to application.");
+        showError(error);
+        deviceDisconnected();
+        updateCastButtonStates();
+    }
+
+    func deviceManager(_ deviceManager: GCKDeviceManager!,
+                       didFailToConnectWithError error: Error!) {
+        print("Received notification that device failed to connect.");
+
+        showError(error);
+        deviceDisconnected();
+        updateCastButtonStates();
+    }
+
+    func deviceManager(_ deviceManager: GCKDeviceManager!,
+                       didDisconnectWithError error: Error!) {
+        print("Received notification that device disconnected.");
+
+        if (error != nil) {
+            showError(error)
+        }
+        deviceDisconnected();
+        updateCastButtonStates();
+    }
+
+    func deviceManager(_ deviceManager: GCKDeviceManager!,
+                       didReceive metadata: GCKApplicationMetadata!) {
+        applicationMetadata = metadata
+    }
+
+    private func showError(_ error: Error) {
+        let alert = UIAlertController(title: "Error", message: error.localizedDescription,
+                                      preferredStyle: UIAlertControllerStyle.alert);
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension BrowserViewController : GCKDeviceScannerListener {
+
+    func deviceDidComeOnline(_ device: GCKDevice!) {
+        print("Device found: \(device.friendlyName)");
+        updateCastButtonStates()
+    }
+
+    func deviceDidGoOffline(_ device: GCKDevice!) {
+        print("Device went away: \(device.friendlyName)");
+        updateCastButtonStates()
+    }
+}
+
+extension BrowserViewController : UIWebViewDelegate {
+
+    func webViewDidStartLoad(_ webView : UIWebView) {
+        activity.startAnimating()
+    }
+
+    func webViewDidFinishLoad(_ webView : UIWebView) {
+        activity.stopAnimating()
+    }
+
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
+        let errorString = "The page you wish to view is Invalid"
+        webView.loadHTMLString(errorString, baseURL: nil)
+    }
+    
+}
+
+extension BrowserViewController: UISearchBarDelegate {
+
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        let text = searchBar.text
+        let url = BrowserUtil.createURL(string: text!)
+        updateWebView(url: url, urlString: text)
+    }
 }
