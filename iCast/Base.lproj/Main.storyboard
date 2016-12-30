@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9Ze-OX-fBf">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -23,18 +23,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gRT-Ls-vFp">
-                                <rect key="frame" x="0.0" y="72" width="375" height="537"/>
+                                <rect key="frame" x="0.0" y="116" width="375" height="493"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <dataDetectorType key="dataDetectorTypes"/>
                             </webView>
-                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search or type URL" translatesAutoresizingMaskIntoConstraints="NO" id="btF-rm-CqB">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <textInputTraits key="textInputTraits" spellCheckingType="no"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                            </searchBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcT-9o-vyl">
                                 <rect key="frame" x="291" y="617" width="30" height="30"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -75,6 +67,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
+                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search or type URL" translatesAutoresizingMaskIntoConstraints="NO" id="btF-rm-CqB">
+                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
+                                <textInputTraits key="textInputTraits" spellCheckingType="no"/>
+                                <scopeButtonTitles>
+                                    <string>Title</string>
+                                    <string>Title</string>
+                                </scopeButtonTitles>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -95,15 +95,44 @@
                             <constraint firstAttribute="trailing" secondItem="btF-rm-CqB" secondAttribute="trailing" id="xQd-Rw-LZT"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="vm9-Hb-dIL">
+                        <barButtonItem key="rightBarButtonItem" tag="4" image="ic_cast_black_24dp.png" id="HBm-M3-iRt">
+                            <connections>
+                                <action selector="castMe:" destination="BYZ-38-t0r" id="CB8-Xx-vsW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activity" destination="erq-0p-Myb" id="XVW-50-Xwj"/>
+                        <outlet property="googleCastButton" destination="HBm-M3-iRt" id="owe-iz-k53"/>
                         <outlet property="searchBar" destination="btF-rm-CqB" id="z6w-Hr-cSM"/>
                         <outlet property="webView" destination="gRT-Ls-vFp" id="quG-fX-1gg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.23188405797103" y="138.58695652173915"/>
+            <point key="canvasLocation" x="1074.4000000000001" y="138.0809595202399"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="h9G-hb-clR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9Ze-OX-fBf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3l0-7D-BRZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ZZv-pd-VGs"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l6F-Ia-dDL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="135.19999999999999" y="138.0809595202399"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_cast_black_24dp.png" width="24" height="24"/>
+    </resources>
 </document>
