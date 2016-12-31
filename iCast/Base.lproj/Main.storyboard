@@ -23,13 +23,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gRT-Ls-vFp">
-                                <rect key="frame" x="0.0" y="116" width="375" height="493"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <dataDetectorType key="dataDetectorTypes"/>
-                            </webView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcT-9o-vyl">
                                 <rect key="frame" x="291" y="617" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="o5l-WY-7wP"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="&lt;-"/>
                                 <connections>
@@ -38,6 +36,9 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vso-Fe-hTV">
                                 <rect key="frame" x="25" y="617" width="32" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="32" id="h8R-wJ-PRB"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Stop"/>
                                 <connections>
@@ -46,6 +47,9 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6RC-dl-cxv">
                                 <rect key="frame" x="329" y="617" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="tlF-wY-8OY"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="-&gt;"/>
                                 <connections>
@@ -54,46 +58,52 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vbP-Mo-rsQ">
                                 <rect key="frame" x="89" y="617" width="77" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="77" id="vux-gk-2lj"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Reload"/>
                                 <connections>
                                     <action selector="reload" destination="gRT-Ls-vFp" eventType="touchUpInside" id="ZRa-tM-3R0"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="erq-0p-Myb">
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="erq-0p-Myb">
                                 <rect key="frame" x="250" y="622" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
-                            <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search or type URL" translatesAutoresizingMaskIntoConstraints="NO" id="btF-rm-CqB">
-                                <rect key="frame" x="0.0" y="72" width="375" height="44"/>
-                                <textInputTraits key="textInputTraits" spellCheckingType="no"/>
-                                <scopeButtonTitles>
-                                    <string>Title</string>
-                                    <string>Title</string>
-                                </scopeButtonTitles>
-                            </searchBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="yA2-bZ-Ohu">
+                                <rect key="frame" x="0.0" y="64" width="375" height="545"/>
+                                <subviews>
+                                    <searchBar contentMode="redraw" searchBarStyle="prominent" placeholder="Search or type URL" translatesAutoresizingMaskIntoConstraints="NO" id="btF-rm-CqB">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        <textInputTraits key="textInputTraits" spellCheckingType="no"/>
+                                        <scopeButtonTitles>
+                                            <string>Title</string>
+                                            <string>Title</string>
+                                        </scopeButtonTitles>
+                                    </searchBar>
+                                    <webView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gRT-Ls-vFp">
+                                        <rect key="frame" x="0.0" y="44" width="375" height="501"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <dataDetectorType key="dataDetectorTypes"/>
+                                    </webView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="QcT-9o-vyl" firstAttribute="baseline" secondItem="6RC-dl-cxv" secondAttribute="baseline" id="39o-w1-yxT"/>
-                            <constraint firstItem="gRT-Ls-vFp" firstAttribute="top" secondItem="btF-rm-CqB" secondAttribute="bottom" id="GwS-gc-gde"/>
-                            <constraint firstItem="6RC-dl-cxv" firstAttribute="leading" secondItem="QcT-9o-vyl" secondAttribute="trailing" constant="8" symbolic="YES" id="J2n-NM-28I"/>
-                            <constraint firstItem="vso-Fe-hTV" firstAttribute="top" secondItem="gRT-Ls-vFp" secondAttribute="bottom" constant="8" symbolic="YES" id="Jlz-ej-bk4"/>
-                            <constraint firstItem="vbP-Mo-rsQ" firstAttribute="leading" secondItem="vso-Fe-hTV" secondAttribute="trailing" constant="32" id="PSx-Dt-hb1"/>
-                            <constraint firstItem="vso-Fe-hTV" firstAttribute="baseline" secondItem="vbP-Mo-rsQ" secondAttribute="baseline" id="ccZ-G6-4Mq"/>
-                            <constraint firstItem="btF-rm-CqB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="fsC-fR-Hu0"/>
-                            <constraint firstItem="btF-rm-CqB" firstAttribute="leading" secondItem="gRT-Ls-vFp" secondAttribute="leading" id="g7t-dH-7ef"/>
-                            <constraint firstItem="vbP-Mo-rsQ" firstAttribute="baseline" secondItem="QcT-9o-vyl" secondAttribute="baseline" id="gSU-4f-lDt"/>
-                            <constraint firstItem="btF-rm-CqB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="jAR-iA-tcv"/>
-                            <constraint firstItem="6RC-dl-cxv" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="oM9-4a-7wZ"/>
-                            <constraint firstItem="vso-Fe-hTV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="9" id="ulp-BE-3sw"/>
-                            <constraint firstItem="btF-rm-CqB" firstAttribute="trailing" secondItem="gRT-Ls-vFp" secondAttribute="trailing" id="xDY-IM-Feu"/>
-                            <constraint firstAttribute="bottom" secondItem="vso-Fe-hTV" secondAttribute="bottom" constant="20" symbolic="YES" id="xNi-Ce-QRA"/>
-                            <constraint firstAttribute="trailing" secondItem="btF-rm-CqB" secondAttribute="trailing" id="xQd-Rw-LZT"/>
+                            <constraint firstItem="vso-Fe-hTV" firstAttribute="top" secondItem="yA2-bZ-Ohu" secondAttribute="bottom" constant="8" symbolic="YES" id="0n9-T0-8PF"/>
+                            <constraint firstItem="QcT-9o-vyl" firstAttribute="baseline" secondItem="6RC-dl-cxv" secondAttribute="baseline" id="44l-SG-dRE"/>
+                            <constraint firstItem="erq-0p-Myb" firstAttribute="leading" secondItem="vbP-Mo-rsQ" secondAttribute="trailing" constant="84" id="6K7-1q-k8Z"/>
+                            <constraint firstItem="6RC-dl-cxv" firstAttribute="leading" secondItem="QcT-9o-vyl" secondAttribute="trailing" constant="8" symbolic="YES" id="8Dj-MG-4Lb"/>
+                            <constraint firstItem="6RC-dl-cxv" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="9x6-cs-lvf"/>
+                            <constraint firstItem="yA2-bZ-Ohu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="IgP-td-X8R"/>
+                            <constraint firstItem="vbP-Mo-rsQ" firstAttribute="baseline" secondItem="QcT-9o-vyl" secondAttribute="baseline" id="RQe-2O-Ssr"/>
+                            <constraint firstAttribute="bottom" secondItem="vso-Fe-hTV" secondAttribute="bottom" constant="20" symbolic="YES" id="SLv-70-tNy"/>
+                            <constraint firstItem="vso-Fe-hTV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="9" id="UGx-6M-oQw"/>
+                            <constraint firstAttribute="trailing" secondItem="yA2-bZ-Ohu" secondAttribute="trailing" id="UkM-Uo-0KV"/>
+                            <constraint firstItem="vso-Fe-hTV" firstAttribute="baseline" secondItem="vbP-Mo-rsQ" secondAttribute="baseline" id="g4d-a4-NIE"/>
+                            <constraint firstItem="erq-0p-Myb" firstAttribute="centerY" secondItem="QcT-9o-vyl" secondAttribute="centerY" id="nEY-WU-FdQ"/>
+                            <constraint firstItem="yA2-bZ-Ohu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="tSO-gC-RkX"/>
+                            <constraint firstItem="vbP-Mo-rsQ" firstAttribute="leading" secondItem="vso-Fe-hTV" secondAttribute="trailing" constant="32" id="vIi-F3-IE4"/>
+                            <constraint firstItem="QcT-9o-vyl" firstAttribute="leading" secondItem="erq-0p-Myb" secondAttribute="trailing" constant="21" id="y23-Ld-d9Y"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vm9-Hb-dIL">
@@ -127,7 +137,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9Ze-OX-fBf" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="3l0-7D-BRZ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3l0-7D-BRZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

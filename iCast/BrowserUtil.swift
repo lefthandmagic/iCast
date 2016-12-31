@@ -21,8 +21,10 @@ class BrowserUtil {
         print(urlString)
 
         if verifyUrl(urlString: urlString) {
+            print("URL Verification passed \(urlString)")
             return URL(string: urlString)
         } else {
+            print("URL Verification failed \(urlString)")
             return nil
         }
     }

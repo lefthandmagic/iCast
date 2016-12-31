@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class BrowserViewController: UIViewController {
 
@@ -41,11 +42,6 @@ class BrowserViewController: UIViewController {
     fileprivate var mediaControlChannel: GCKMediaControlChannel?
     fileprivate var applicationMetadata: GCKApplicationMetadata?
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItems = []
@@ -63,12 +59,77 @@ class BrowserViewController: UIViewController {
         }
         // [END device-scanner]
 
-        let urlString = "google.com"
+        let urlString = "https://einthusan.tv/movie/watch/544d/?lang=tamil"
         setWebViewProperties()
         setSearchBarProperties()
         let url = BrowserUtil.createURL(string: urlString)
         updateWebView(url: url, urlString: urlString)
 
+        NotificationCenter.default.addObserver(self, selector:#selector(playerItemBecameCurrentNotification(notification:)), name: NSNotification.Name(rawValue: "AVPlayerItemBecameCurrentNotification"), object: nil)
+    }
+
+    func playerItemBecameCurrentNotification(notification: Notification) {
+        print("playerItemBecameCurrentNotification=\(notification)")
+        if let playerItem = notification.object as? AVPlayerItem {
+
+            let asset = playerItem.asset as? AVURLAsset
+            let url = asset?.url
+            let path = url?.absoluteString
+            print("Path: \(path!)")
+            if let path = path {
+
+                //Cleanup Existing state
+                if(mediaInformation != nil) {
+                    navigationItem.rightBarButtonItems?.removeLast()
+                }
+
+                let metadata = GCKMediaMetadata()
+                metadata?.setString("iCasting Now", forKey: kGCKMetadataKeyTitle)
+                metadata?.setString(path,
+                                    forKey:kGCKMetadataKeySubtitle)
+
+                let url = URL(string:"https://commondatastorage.googleapis.com/gtv-videos-bucket/" +
+                    "sample/images/BigBuckBunny.jpg")
+                metadata?.addImage(GCKImage(url: url, width: 480, height: 360))
+                var contentType: String?
+                getContentType(urlPath: path) { (type) in
+                    contentType = type
+                    print("ContentType is \(contentType)")
+                }
+
+                if (contentType ?? "").isEmpty {
+                    print("String is nil or empty")
+                    contentType = "video/MP2T"
+                }
+
+                mediaInformation = GCKMediaInformation(
+                    contentID: path,
+                    streamType: GCKMediaStreamType.buffered,
+                    contentType: contentType,
+                    metadata: metadata,
+                    streamDuration: 0,
+                    mediaTracks: [],
+                    textTrackStyle: nil,
+                    customData: nil
+                )
+                navigationItem.rightBarButtonItems?.append(play)
+            }
+        }
+    }
+
+    func getContentType(urlPath: String, completion: @escaping (_ type: String)->(Void)) {
+        if let url = URL(string: urlPath) {
+            var request = URLRequest(url: url)
+            request.httpMethod = "HEAD"
+            let task = URLSession.shared.dataTask(with: request) { (_, response, error) in
+                if let httpResponse = response as? HTTPURLResponse, error == nil {
+                    if let ct = httpResponse.allHeaderFields["Content-Type"] as? String {
+                        completion(ct)
+                    }
+                }
+            }
+            task.resume()
+        }
     }
 
 
@@ -77,46 +138,24 @@ class BrowserViewController: UIViewController {
 
         // Show alert if not connected.
         if (deviceManager?.connectionState != GCKConnectionState.connected) {
-                let alert = UIAlertController(title: "Not Connected",
-                                              message: "Please connect to Cast device",
-                                              preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                alert.present(alert, animated: true, completion: nil)
-                return
+            let alert = UIAlertController(title: "Not Connected",
+                                          message: "Please connect to Cast device",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
         }
 
-        // [START media-metadata]
-        // Define Media Metadata.
-        let metadata = GCKMediaMetadata()
-        metadata?.setString("Big Buck Bunny (2008)", forKey: kGCKMetadataKeyTitle)
-        metadata?.setString("Big Buck Bunny tells the story of a giant rabbit with a heart bigger " +
-            "than himself. When one sunny day three rodents rudely harass him, something " +
-            "snaps... and the rabbit ain't no bunny anymore! In the typical cartoon " +
-            "tradition he prepares the nasty rodents a comical revenge.",
-                           forKey:kGCKMetadataKeySubtitle)
+        if let mediaInformation = mediaInformation {
 
-        let url = URL(string:"https://commondatastorage.googleapis.com/gtv-videos-bucket/" +
-            "sample/images/BigBuckBunny.jpg")
-        metadata?.addImage(GCKImage(url: url, width: 480, height: 360))
-        // [END media-metadata]
-        // [START load-media]
-        // Define Media Information.
-        let mediaInformation = GCKMediaInformation(
-            contentID:
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            streamType: GCKMediaStreamType.buffered,
-            contentType: "video/mp4",
-            metadata: metadata,
-            streamDuration: 0,
-            mediaTracks: [],
-            textTrackStyle: nil,
-            customData: nil
-        )
-        
-        // Cast the media
-        mediaControlChannel!.loadMedia(mediaInformation, autoplay: true)
+            // Cast the media
+            let requestId = mediaControlChannel!.loadMedia(mediaInformation, autoplay: true)
+            if (requestId == kGCKInvalidRequestID) {
+                mediaControlChannel!.stop()
+            }
+        }
         // [END load-media]
-
     }
 
     @IBAction func castMe(_ sender: Any) {
@@ -144,7 +183,7 @@ class BrowserViewController: UIViewController {
                 deviceScanner.passiveScan = true
             }
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
+            let cancelAction  = UIAlertAction(title: "Cancel", style: .cancel) { action -> Void in
                 //Just dismiss the action sheet
             }
             actionSheet.addAction(cancelAction)
@@ -179,7 +218,7 @@ class BrowserViewController: UIViewController {
                 //Just dismiss the action sheet
             }
             actionSheet.addAction(cancelAction)
-            
+
             //Present the AlertController
             self.present(actionSheet, animated: true, completion: nil)
         }
@@ -209,10 +248,10 @@ extension BrowserViewController {
 
     fileprivate func updateWebView(url : URL?, urlString: String?) {
         if let url = url {
-            print("Loading \(url.absoluteString)")
             let req = URLRequest(url:url, timeoutInterval: 10)
             searchBar.text = url.absoluteURL.absoluteString
             webView.loadRequest(req)
+            webView.stringByEvaluatingJavaScript(from: "window.alert=null;")
         } else {
             if var query = urlString {
                 query = query.replacingOccurrences(of: " ", with: "+")
@@ -226,16 +265,12 @@ extension BrowserViewController {
     fileprivate func updateCastButtonStates() {
         if (deviceScanner!.devices.count > 0) {
             // Show the Cast button.
-            print("Device found!!")
             navigationItem.rightBarButtonItems = [googleCastButton!]
             if (deviceManager != nil && deviceManager?.connectionState == GCKConnectionState.connected) {
-                navigationItem.rightBarButtonItems?.append(play)
                 googleCastButton!.tintColor = UIColor.blue
-
             } else {
                 // Show the Cast button in the disabled state.
                 googleCastButton!.tintColor = UIColor.gray
-                print("Setup google cast Gray WTH!!")
             }
         } else{
             // Don't show Cast button.
@@ -271,7 +306,7 @@ extension BrowserViewController {
 
 }
 
-extension BrowserViewController : GCKDeviceManagerDelegate, GCKMediaControlChannelDelegate {
+extension BrowserViewController : GCKDeviceManagerDelegate {
 
     func deviceManagerDidConnect(_ deviceManager: GCKDeviceManager!) {
         print("Connected.");
@@ -320,6 +355,8 @@ extension BrowserViewController : GCKDeviceManagerDelegate, GCKMediaControlChann
         updateCastButtonStates();
     }
 
+
+
     func deviceManager(_ deviceManager: GCKDeviceManager!,
                        didReceive metadata: GCKApplicationMetadata!) {
         applicationMetadata = metadata
@@ -330,6 +367,17 @@ extension BrowserViewController : GCKDeviceManagerDelegate, GCKMediaControlChann
                                       preferredStyle: UIAlertControllerStyle.alert);
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension BrowserViewController :  GCKMediaControlChannelDelegate {
+
+    func mediaControlChannel(_ mediaControlChannel: GCKMediaControlChannel!, didFailToLoadMediaWithError error: Error!) {
+            print("Failed to load media with Error: \(error)")
+    }
+
+    func mediaControlChannel(_ mediaControlChannel: GCKMediaControlChannel!, requestDidFailWithID requestID: Int, error: Error!) {
+        print("Failed to load media of request: \(requestID) with Error: \(error)")
     }
 }
 
@@ -357,14 +405,18 @@ extension BrowserViewController : UIWebViewDelegate {
     }
 
     func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        let errorString = "The page you wish to view is Invalid"
-        webView.loadHTMLString(errorString, baseURL: nil)
+
+        if (error._code == 204 && error._domain == "WebKitErrorDomain") {
+            // "Plug-in handled load" (i.e. audio/video file)
+        } else if (error._code != NSURLErrorCancelled) {
+            webView.loadHTMLString(error.localizedDescription, baseURL: nil)
+        }
     }
     
 }
 
 extension BrowserViewController: UISearchBarDelegate {
-
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         let text = searchBar.text
