@@ -76,7 +76,8 @@ class BrowserViewController: UIViewController {
             let url = asset?.url
             let path = url?.absoluteString
             print("Path: \(path!)")
-            if let path = path {
+            if let path = path, // Show alert if not connected.
+            (deviceManager?.connectionState == GCKConnectionState.connected)  {
 
                 //Cleanup Existing state
                 if(mediaInformation != nil) {
