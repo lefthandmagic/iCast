@@ -73,12 +73,14 @@ class BrowserViewController: UIViewController {
         if let playerItem = notification.object as? AVPlayerItem {
 
             let asset = playerItem.asset as? AVURLAsset
+            print ("Asset is \(asset)")
             let url = asset?.url
             let path = url?.absoluteString
             print("Path: \(path!)")
-            if let path = path, // Show alert if not connected.
-            (deviceManager?.connectionState == GCKConnectionState.connected)  {
+            //if let path = path, // Show alert if not connected.
+            //(deviceManager?.connectionState == GCKConnectionState.connected)  {
 
+            if let path = path {
                 //Cleanup Existing state
                 if(mediaInformation != nil) {
                     navigationItem.rightBarButtonItems?.removeLast()
@@ -100,9 +102,9 @@ class BrowserViewController: UIViewController {
 
                 if (contentType ?? "").isEmpty {
                     print("String is nil or empty")
-                    contentType = "video/MP2T"
+                    contentType = "application/x-mpegurl"
                 }
-
+                contentType = "application/x-mpegurl"
                 mediaInformation = GCKMediaInformation(
                     contentID: path,
                     streamType: GCKMediaStreamType.buffered,
@@ -121,9 +123,11 @@ class BrowserViewController: UIViewController {
     func getContentType(urlPath: String, completion: @escaping (_ type: String)->(Void)) {
         if let url = URL(string: urlPath) {
             var request = URLRequest(url: url)
+            request.httpShouldHandleCookies = true
             request.httpMethod = "HEAD"
             let task = URLSession.shared.dataTask(with: request) { (_, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, error == nil {
+                    print("Response is \(httpResponse)")
                     if let ct = httpResponse.allHeaderFields["Content-Type"] as? String {
                         completion(ct)
                     }
