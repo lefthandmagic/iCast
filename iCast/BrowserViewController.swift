@@ -24,8 +24,8 @@ class BrowserViewController: UIViewController {
 
     let browserUtil = BrowserUtil()
 
-    //fileprivate let kReceiverAppID = "AA779DBB"
-    fileprivate let kReceiverAppID = kGCKMediaDefaultReceiverApplicationID
+    fileprivate let kReceiverAppID = "59EB0B2D"
+    //fileprivate let kReceiverAppID = kGCKMediaDefaultReceiverApplicationID
     fileprivate let kCancelTitle = "Cancel"
     fileprivate let kDisconnectTitle = "Disconnect"
     private lazy var btnImage:UIImage = {
@@ -59,7 +59,7 @@ class BrowserViewController: UIViewController {
         }
         // [END device-scanner]
 
-        let urlString = "https://einthusan.tv/movie/watch/544d/?lang=tamil"
+        let urlString = "https://youtube.com"
         setWebViewProperties()
         setSearchBarProperties()
         let url = BrowserUtil.createURL(string: urlString)
@@ -99,12 +99,14 @@ class BrowserViewController: UIViewController {
                     contentType = type
                     print("ContentType is \(contentType)")
                 }
-
+                print ("ContentType is \(contentType)")
                 if (contentType ?? "").isEmpty {
                     print("String is nil or empty")
-                    contentType = "application/x-mpegurl"
+                    contentType = "video/mp4"
+                } else {
+                    contentType = contentType!
                 }
-                contentType = "application/x-mpegurl"
+
                 mediaInformation = GCKMediaInformation(
                     contentID: path,
                     streamType: GCKMediaStreamType.buffered,
@@ -123,7 +125,6 @@ class BrowserViewController: UIViewController {
     func getContentType(urlPath: String, completion: @escaping (_ type: String)->(Void)) {
         if let url = URL(string: urlPath) {
             var request = URLRequest(url: url)
-            request.httpShouldHandleCookies = true
             request.httpMethod = "HEAD"
             let task = URLSession.shared.dataTask(with: request) { (_, response, error) in
                 if let httpResponse = response as? HTTPURLResponse, error == nil {

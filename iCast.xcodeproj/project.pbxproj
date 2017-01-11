@@ -371,7 +371,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = V5SWQD74B4;
 				INFOPLIST_FILE = iCast/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.praveen.iCast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iCast/iCast-Bridging-Header.h";
@@ -388,7 +389,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = V5SWQD74B4;
 				INFOPLIST_FILE = iCast/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks -ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.praveen.iCast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iCast/iCast-Bridging-Header.h";
